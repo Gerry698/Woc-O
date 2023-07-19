@@ -32,9 +32,16 @@
         let ghost = document.getElementById("redGhost");
         let x = 260; //You'll want the x-coordinate of the mouse to be a global variable
         let y = 260; //You'll want the y-coordinate of the mouse to be a global variable
+        let ty=0;
+        let tx=0;
+        function mmove(event){
+            ty = event.offsetY - 60;
+            tx = event.offsetX - 60;
+        }
         /** You'll want to create a mousemove event listener that publishes the current
         mouse coordinate values to these global x and y variables */
-        document.getElementById("canvas").addEventListener("mousemove",move,false);
+        document.getElementById("canvas").addEventListener("mousemove",mmove, false);
+        let inter = setInterval(move, 1);
         /** You'll want to create a set interval callback that moves the ghost
         towards these mouse coordinates **/
         function move(event){
@@ -50,7 +57,43 @@
         of the ghost by using ghost.getAttribute("x"), and you should be able to set the 
         "x" attribute of the ghost to a value using ghost.setAttribute("x", value). The 
         same is true for "y". */
+        function move(){
+            let ox = ghost.getAttribute("x");
+            let oy = ghost.getAttribute("y");
+
+            //Assume we want to move an object at coordinates (ox, oy) a
+            //distance ds along a line with its other end point at (tx, ty). 
+            let dx = 0;
+            let dy = 0;
+            let ds = 5;
+            if(tx - ox > 5 || ox - tx > 5) {
+                let m = (ty - oy) / (tx - ox);
+                dx = Math.sign(tx - ox) * ds / Math.sqrt(1 + m * m);
+                dy = m * dx;
+                } 
+            else if(ty - oy > 5 || oy - ty > 5){
+                dy = Math.sign(ty - oy) * ds;
+                }
+            else{
+                clearInterval(inter);
+   
+            }
+            
+               
+            let x = Number(ox) + dx; //the new x-coordinate for the moving object
+            let y = Number(oy) + dy; //the new y-coordinate for the moving object
+            ghost.setAttribute("x", x.toString());
+            ghost.setAttribute("y",y.toString());
+            
+                    }
+       
+    
         
+
+        document.getElementById("canvas").addEventListener("mousemove",mmove, false);
+    
+        
+        inter = setInterval(move, 1);
     </script>
 </body>
 </html>
