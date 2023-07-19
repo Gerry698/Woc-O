@@ -41,12 +41,18 @@
         /** You'll want to create a mousemove event listener that publishes the current
         mouse coordinate values to these global x and y variables */
         document.getElementById("canvas").addEventListener("mousemove",mmove, false);
-    
-        
         let inter = setInterval(move, 1);
         /** You'll want to create a set interval callback that moves the ghost
         towards these mouse coordinates **/
-
+        function move(event){
+            x=event.offsetX-60;
+            y=event.offsetY-60;
+        }
+        setInterval(mv,1);
+        function mv(){
+            ghost.setAttribute("x",x);
+            ghost.setAttribute("y",y);
+        }
         /* In the callback function, you should be able to get the current "x" attribute
         of the ghost by using ghost.getAttribute("x"), and you should be able to set the 
         "x" attribute of the ghost to a value using ghost.setAttribute("x", value). The 
