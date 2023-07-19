@@ -14,6 +14,11 @@
     flex-wrap: nowrap;
     margin-bottom: 20px
 }
+.mmRow1 {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 20px
+}
 .guess {
     display: flex;
     justify-content: space-around;

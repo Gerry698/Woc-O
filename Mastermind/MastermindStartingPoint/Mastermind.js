@@ -18,10 +18,18 @@ function changeColor() {
 }
 let submitButton = document.getElementById("submit");
 //reset the game
+let body=document.getElementById("gameBoard");
 resetGame();
 function resetGame() {
     //pick a random code when resetting the game
     pickRandomCode();
+    var cd=document.getElementsByClassName("mmRow");
+    var gb=document.getElementById("gameBoard");
+    for(var m=cd.length-1;m>=0;m--){
+        gb.removeChild(cd[m]);
+    }
+    
+
     // You'll need to activate the submit button
     // You'll want to clear any rows from a previous game if they exist
 }
@@ -34,14 +42,62 @@ function pickRandomCode() {
     for(let i = 0; i < 4; i++) {
         secretCode.push(colors[Math.floor(6 * Math.random())]);
     }
+    window.alert(secretCode);
 }
 //You'll need to create an event listener on the submit button for when
 //the user makes a guess.
-
+submitButton.addEventListener("click",submit,false);
+secretCodematch=[0,0,0,0];
 //Every time the user makes a guess, you need to append a new row in the board.
 //I suggest that you make a row look something like this:
-
+function submit(){
+    var dv1=document.createElement("div");
+    var dv2=document.createElement("div");
+    var dv3=document.createElement("div");
+    dv1.appendChild(dv2);
+    dv1.appendChild(dv3);
+    dv1.className="mmRow";
+    dv2.className="guess";
+    dv3.className="feedback";
+    for(let select of selects){
+        var dv=document.createElement("div");
+        dv.className=select.value + " indicator";
+        dv2.appendChild(dv);
+    }
+    for(var i=0;i<4;i++){
+        var dv=document.createElement("div");
+        dv.className="indicator ";
+        for(var j=0;j<4;j++){
+            if(secretCode[j]==selects[i].value){
+                if(j==i){
+                    dv.className+="black";
+                    dv3.appendChild(dv);
+                    secretCodematch[j]=1;
+                    break;
+                }
+                else{
+                    if(secretCodematch[j]==0){
+                        dv.className+="white";
+                        dv3.appendChild(dv);
+                        secretCodematch[j]=1;
+                        break;
+                    }
+                    
+                }
+                
+                    
+            }
+            
+        }
+        
+        
+        
+    }
+    secretCodematch=[0,0,0,0];
+    body.appendChild(dv1);
+}
 /*
+
     <div class="mmRow">
         <div class="guess">
             <div class="color indicator"></div>
